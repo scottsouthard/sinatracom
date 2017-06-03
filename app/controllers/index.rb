@@ -1,4 +1,6 @@
-intercom = Intercom::Client.new(token: MY_TOKEN)
+require 'intercom'
+
+intercom = Intercom::Client.new(token: "my token")
 
 get '/' do
   @users = User.all
@@ -33,9 +35,10 @@ end
 
 post '/register' do
   @user = User.new(params[:user])
-  user = intercom.users.create(email: @user.email, name: @user.name, favorite_beer: @user.favorite_beer)
   # @user.password = params[:password]
   if @user.save
+    user = intercom.users.create(email: @user.email, name: @user.name)
+    user.custom_attributes["favorite_beer"] = @user.favorite_beer
     session[:user_id] = @user.id
     redirect '/'
   else
