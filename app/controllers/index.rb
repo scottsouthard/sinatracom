@@ -1,6 +1,9 @@
+intercom = Intercom::Client.new(token: MY_TOKEN)
+
 get '/' do
-  erb :index
   @users = User.all
+  @user = current_user
+  erb :index
 end
 
 get '/login' do
@@ -8,12 +11,17 @@ get '/login' do
 end
 
 post '/login' do
-  @user = User.find_by(email: params[:username])
+  @user = User.find_by_email(params[:email])
+  # if @user && @user.authenticate(params[:password])
+  p @user.password
+  p params[:password]
 
-  if @user && @user.authenticate(params[:password])
+  if @user.password == params[:password]
+    p "OKOKOK"
     session[:user_id] = @user.id
     redirect '/'
   else
+    p "SCREWWWYYY"
     @errors = "Wrong email or password"
     redirect '/login'
   end
@@ -25,7 +33,7 @@ end
 
 post '/register' do
   @user = User.new(params[:user])
-  @user.password = params[:password]
+  # @user.password = params[:password]
   if @user.save
     session[:user_id] = @user.id
     redirect '/'

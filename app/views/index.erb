@@ -1,1 +1,6 @@
 <h1>Only The Lonely</h1>
+
+
+<% if current_user %>
+  <h3><%= current_user.email %></h3>
+<% end %>

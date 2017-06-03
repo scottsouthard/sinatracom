@@ -7,18 +7,16 @@ require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 # Require gems we care about
 require 'rubygems'
-
 require 'uri'
 require 'pathname'
-
 require 'pg'
 require 'active_record'
 require 'logger'
-
 require 'sinatra'
 require "sinatra/reloader" if development?
-
 require 'erb'
+
+intercom = Intercom::Client.new(token: 'my_token')
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
