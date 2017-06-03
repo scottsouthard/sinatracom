@@ -33,6 +33,7 @@ end
 
 post '/register' do
   @user = User.new(params[:user])
+  user = intercom.users.create(email: @user.email, name: @user.name, favorite_beer: @user.favorite_beer)
   # @user.password = params[:password]
   if @user.save
     session[:user_id] = @user.id
