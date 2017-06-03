@@ -1,5 +1,6 @@
 get '/' do
   erb :index
+  @users = User.all
 end
 
 get '/login' do
@@ -24,6 +25,7 @@ end
 
 post '/register' do
   @user = User.new(params[:user])
+  @user.password = params[:password]
   if @user.save
     session[:user_id] = @user.id
     redirect '/'
